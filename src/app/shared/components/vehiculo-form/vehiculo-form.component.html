@@ -1,0 +1,62 @@
+<div class="vehiculo-form" [formGroup]="form">
+  <h4 class="vehiculo-form__title">{{ titulo }}</h4>
+
+  <div class="vehiculo-form__grid">
+    <!-- Patente -->
+    <div class="vehiculo-form__field">
+      <label for="patente">Patente *</label>
+      <div class="vehiculo-form__input-group">
+        <input id="patente" formControlName="patente" placeholder="Ej: ABCD12"
+               (blur)="onPatenteBlur()" [class.is-invalid]="showError('patente')">
+        <span *ngIf="patenteBuscando" class="vehiculo-form__spinner">Buscando...</span>
+      </div>
+      <span *ngIf="patenteMensaje" class="vehiculo-form__hint"
+            [class.vehiculo-form__hint--found]="patenteEncontrado">
+        {{ patenteMensaje }}
+      </span>
+      <span *ngIf="showError('patente')" class="vehiculo-form__error">Patente es requerida.</span>
+    </div>
+
+    <!-- Marca -->
+    <div class="vehiculo-form__field">
+      <label for="marca">Marca *</label>
+      <input id="marca" formControlName="marca" placeholder="Ej: Toyota"
+             [class.is-invalid]="showError('marca')">
+      <span *ngIf="showError('marca')" class="vehiculo-form__error">Marca es requerida.</span>
+    </div>
+
+    <!-- Modelo -->
+    <div class="vehiculo-form__field">
+      <label for="modelo">Modelo *</label>
+      <input id="modelo" formControlName="modelo" placeholder="Ej: Corolla"
+             [class.is-invalid]="showError('modelo')">
+      <span *ngIf="showError('modelo')" class="vehiculo-form__error">Modelo es requerido.</span>
+    </div>
+
+    <!-- Año -->
+    <div class="vehiculo-form__field">
+      <label for="anio">Año *</label>
+      <input id="anio" formControlName="anio" type="number" placeholder="Ej: 2022"
+             [class.is-invalid]="showError('anio')">
+      <span *ngIf="showError('anio')" class="vehiculo-form__error">Año es requerido.</span>
+    </div>
+
+    <!-- Color -->
+    <div class="vehiculo-form__field">
+      <label for="color">Color</label>
+      <input id="color" formControlName="color" placeholder="Ej: Blanco">
+    </div>
+
+    <!-- Número de Motor -->
+    <div class="vehiculo-form__field">
+      <label for="numeroMotor">N° Motor</label>
+      <input id="numeroMotor" formControlName="numeroMotor" placeholder="Opcional">
+    </div>
+
+    <!-- Número de Chasis -->
+    <div class="vehiculo-form__field">
+      <label for="numeroChasis">N° Chasis</label>
+      <input id="numeroChasis" formControlName="numeroChasis" placeholder="Opcional">
+    </div>
+  </div>
+</div>

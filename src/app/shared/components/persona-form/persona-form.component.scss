@@ -1,0 +1,137 @@
+/* Estilos para persona-form */
+
+.persona-form {
+  &__titulo {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    &--imc {
+      grid-template-columns: 1fr 1fr auto;
+      align-items: end;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    input, select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: #1976d2;
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+      }
+    }
+
+    &--btn {
+      justify-content: flex-end;
+    }
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  &__spinner {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
+  }
+
+  &__imc {
+    margin-top: 16px;
+    padding: 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+
+    h5 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: #444;
+    }
+  }
+}
+
+.error {
+  font-size: 12px;
+  color: #d32f2f;
+  margin-top: 4px;
+}
+
+.hint {
+  font-size: 12px;
+  margin-top: 4px;
+
+  &--success { color: #2e7d32; }
+  &--info { color: #1565c0; }
+}
+
+.imc-result {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+
+  &--valid {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    color: #2e7d32;
+  }
+
+  &--invalid {
+    background: #fbe9e7;
+    border: 1px solid #ef9a9a;
+    color: #c62828;
+  }
+}
+
+.imc-warning {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &--imc {
+    background: #1976d2;
+    color: white;
+
+    &:hover:not(:disabled) { background: #1565c0; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+}

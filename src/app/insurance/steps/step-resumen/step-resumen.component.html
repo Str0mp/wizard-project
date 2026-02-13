@@ -1,0 +1,14 @@
+<div class="step-resumen" *ngIf="state">
+  <h3>Resumen de Contratación</h3>
+  <div style="padding:12px;background:#f5f5f5;border-radius:4px;margin-bottom:12px">
+    <h4 style="margin:0 0 8px">Titular</h4>
+    <p>{{ state.titular?.nombre }} {{ state.titular?.apellidos }} — {{ state.titular?.rut }}</p>
+  </div>
+  <div *ngIf="state.cargas.length" style="padding:12px;background:#f5f5f5;border-radius:4px;margin-bottom:12px">
+    <h4 style="margin:0 0 8px">Cargas ({{ state.cargas.length }})</h4>
+    <p *ngFor="let c of state.cargas">
+      {{ c.nombre }} {{ c.apellidos }}
+      <span *ngIf="c.parentescoId">({{ c.parentescoId }})</span> — {{ c.rut }}
+    </p>
+  </div>
+</div>

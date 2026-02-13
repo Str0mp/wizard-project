@@ -1,0 +1,19 @@
+<app-wizard-container
+  [stepsConfig]="(stepsConfig$ | async) || []"
+  [currentStep]="(currentStep$ | async) || 0"
+  [isFirstStep]="(isFirstStep$ | async) !== false"
+  [isLastStep]="(isLastStep$ | async) === true"
+  (next)="onNext()"
+  (previous)="onPrevious()"
+  (goToStep)="onGoToStep($event)"
+>
+  <ng-container *ngIf="currentStepConfig$ | async as stepConfig" [ngSwitch]="stepConfig.component">
+    <app-step-titular-cargas *ngSwitchCase="'step-titular-cargas'" #step></app-step-titular-cargas>
+    <app-step-vehiculo       *ngSwitchCase="'step-vehiculo'"       #step></app-step-vehiculo>
+    <app-step-dps            *ngSwitchCase="'step-dps'"            #step></app-step-dps>
+    <app-step-cobertura      *ngSwitchCase="'step-cobertura'"      #step></app-step-cobertura>
+    <app-step-validacion     *ngSwitchCase="'step-validacion'"     #step></app-step-validacion>
+    <app-step-pago           *ngSwitchCase="'step-pago'"           #step></app-step-pago>
+    <app-step-resumen        *ngSwitchCase="'step-resumen'"        #step></app-step-resumen>
+  </ng-container>
+</app-wizard-container>

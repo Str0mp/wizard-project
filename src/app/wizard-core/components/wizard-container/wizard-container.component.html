@@ -1,0 +1,21 @@
+<div class="wizard-container">
+  <app-stepper-bar
+    [steps]="stepsConfig"
+    [currentStep]="currentStep"
+    (stepClicked)="onStepClicked($event)"
+  ></app-stepper-bar>
+
+  <div class="wizard-container__content">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="wizard-container__nav">
+    <button class="btn btn--outline" *ngIf="!isFirstStep" (click)="onPrevious()">
+      ← Anterior
+    </button>
+    <div class="wizard-container__spacer"></div>
+    <button class="btn btn--primary" (click)="onNext()">
+      {{ isLastStep ? 'Finalizar' : 'Siguiente →' }}
+    </button>
+  </div>
+</div>

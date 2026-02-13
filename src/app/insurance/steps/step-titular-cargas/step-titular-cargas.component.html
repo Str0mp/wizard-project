@@ -1,0 +1,74 @@
+<div class="step-titular-cargas">
+
+  <!-- ═══ Titular ═══ -->
+  <app-persona-form
+    [form]="titularForm"
+    [mostrarImc]="config.requiereImc"
+    [validationRules]="config.titularRules"
+    [rutBuscando]="titularState.rutBuscando"
+    [rutEncontrado]="titularState.rutEncontrado"
+    [rutMensaje]="titularState.rutMensaje"
+    [imcCalculando]="titularState.imcCalculando"
+    [imcResult]="titularState.imcResult"
+    (rutBlur)="onTitularRutBlur($event)"
+    (calcularImc)="onTitularCalcularImc($event)"
+    titulo="Datos del Titular"
+    idPrefix="titular"
+  ></app-persona-form>
+
+  <!-- ═══ Cargas ═══ -->
+  <div *ngIf="config.requiereCargas" class="cargas-section">
+    <div class="cargas-header">
+      <h3>
+        Cargas Familiares
+        <span *ngIf="config.cargasLimits.max < 99" class="cargas-count">
+          ({{ cargasFormArray.length }}/{{ config.cargasLimits.max }})
+        </span>
+      </h3>
+      <button class="btn btn--secondary"
+        (click)="agregarCarga()"
+        [disabled]="cargasFormArray.length >= config.cargasLimits.max || config.parentescosLoading">
+        {{ config.parentescosLoading ? 'Cargando...' : '+ Agregar Carga' }}
+      </button>
+    </div>
+
+    <p *ngIf="config.cargasLimits.min > 0 && cargasFormArray.length < config.cargasLimits.min"
+       class="min-warning">
+      ⚠ Este seguro requiere al menos {{ config.cargasLimits.min }}
+      {{ config.cargasLimits.min === 1 ? 'carga' : 'cargas' }}.
+    </p>
+
+    <div *ngFor="let _ of cargasFormArray.controls; let i = index" class="carga-item">
+      <div class="carga-item__header">
+        <span>Carga #{{ i + 1 }}</span>
+        <button class="btn btn--danger btn--sm" (click)="eliminarCarga(i)">Eliminar</button>
+      </div>
+
+      <div class="parentesco-field" [formGroup]="getCargaForm(i)">
+        <label>Parentesco</label>
+        <select formControlName="parentescoId" (change)="onParentescoChange(i)">
+          <option value="">-- Seleccione --</option>
+          <option *ngFor="let p of config.parentescos" [value]="p.id">{{ p.label }}</option>
+        </select>
+        <span class="error"
+          *ngIf="getCargaForm(i).get('parentescoId')?.touched && getCargaForm(i).get('parentescoId')?.invalid">
+          Debe seleccionar un parentesco.
+        </span>
+      </div>
+
+      <app-persona-form
+        [form]="getCargaForm(i)"
+        [mostrarImc]="config.requiereImc"
+        [validationRules]="getCargaState(i).rules"
+        [rutBuscando]="getCargaState(i).rutBuscando"
+        [rutEncontrado]="getCargaState(i).rutEncontrado"
+        [rutMensaje]="getCargaState(i).rutMensaje"
+        [imcCalculando]="getCargaState(i).imcCalculando"
+        [imcResult]="getCargaState(i).imcResult"
+        (rutBlur)="onCargaRutBlur(i, $event)"
+        (calcularImc)="onCargaCalcularImc(i, $event)"
+        [idPrefix]="'carga-' + i"
+      ></app-persona-form>
+    </div>
+  </div>
+</div>

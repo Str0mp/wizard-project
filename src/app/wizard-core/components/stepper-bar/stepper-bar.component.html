@@ -1,0 +1,23 @@
+<nav class="stepper-bar">
+  <ol class="stepper-bar__list">
+    <li
+      *ngFor="let step of steps; let i = index; let last = last"
+      class="stepper-bar__item"
+      [class.stepper-bar__item--active]="i === currentStep"
+      [class.stepper-bar__item--completed]="i < currentStep"
+      [class.stepper-bar__item--pending]="i > currentStep"
+    >
+      <button
+        class="stepper-bar__button"
+        [disabled]="i > currentStep"
+        (click)="onStepClick(i)"
+      >
+        <span class="stepper-bar__number">{{ i < currentStep ? '✓' : i + 1 }}</span>
+        <span class="stepper-bar__label">{{ step.label }}</span>
+      </button>
+      <span *ngIf="!last" class="stepper-bar__connector"
+        [class.stepper-bar__connector--completed]="i < currentStep">
+      </span>
+    </li>
+  </ol>
+</nav>

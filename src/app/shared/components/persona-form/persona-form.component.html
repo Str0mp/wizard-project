@@ -1,0 +1,102 @@
+<div class="persona-form" [formGroup]="form">
+  <h4 *ngIf="titulo" class="persona-form__titulo">{{ titulo }}</h4>
+
+  <div class="persona-form__grid">
+
+    <!-- RUT — emite evento en blur para que el padre busque -->
+    <div class="persona-form__field">
+      <label [for]="idPrefix + '-rut'">RUT</label>
+      <div class="persona-form__input-wrapper">
+        <input
+          [id]="idPrefix + '-rut'"
+          type="text"
+          formControlName="rut"
+          placeholder="12.345.678-9"
+          (blur)="onRutBlur()"
+        />
+        <span *ngIf="rutBuscando" class="persona-form__spinner">⏳</span>
+      </div>
+      <span class="error" *ngIf="showError('rut')">
+        {{ getErrorMsg('rut', 'RUT es requerido.') }}
+      </span>
+      <span *ngIf="rutMensaje" class="hint"
+            [class.hint--success]="rutEncontrado"
+            [class.hint--info]="!rutEncontrado">
+        {{ rutMensaje }}
+      </span>
+    </div>
+
+    <!-- Nombre -->
+    <div class="persona-form__field">
+      <label [for]="idPrefix + '-nombre'">Nombre</label>
+      <input [id]="idPrefix + '-nombre'" type="text" formControlName="nombre"
+             placeholder="Ingrese nombre"
+             [maxlength]="validationRules?.nombre?.maxLength || 100" />
+      <span class="error" *ngIf="showError('nombre')">
+        {{ getErrorMsg('nombre', 'Nombre es requerido (mín. 2 caracteres).') }}
+      </span>
+    </div>
+
+    <!-- Apellidos -->
+    <div class="persona-form__field">
+      <label [for]="idPrefix + '-apellidos'">Apellidos</label>
+      <input [id]="idPrefix + '-apellidos'" type="text" formControlName="apellidos"
+             placeholder="Ingrese apellidos"
+             [maxlength]="validationRules?.apellidos?.maxLength || 100" />
+      <span class="error" *ngIf="showError('apellidos')">
+        {{ getErrorMsg('apellidos', 'Apellidos es requerido (mín. 2 caracteres).') }}
+      </span>
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="persona-form__field">
+      <label [for]="idPrefix + '-fecha'">Fecha de Nacimiento</label>
+      <input [id]="idPrefix + '-fecha'" type="date" formControlName="fechaNacimiento" />
+      <span class="error"
+        *ngIf="form.get('fechaNacimiento')?.touched && form.get('fechaNacimiento')?.hasError('edadFueraDeRango')">
+        {{ form.get('fechaNacimiento')?.getError('edadFueraDeRango')?.mensaje }}
+      </span>
+      <span class="error"
+        *ngIf="form.get('fechaNacimiento')?.touched
+               && form.get('fechaNacimiento')?.hasError('required')
+               && !form.get('fechaNacimiento')?.hasError('edadFueraDeRango')">
+        Fecha de nacimiento es requerida.
+      </span>
+    </div>
+  </div>
+
+  <!-- Sección IMC -->
+  <div *ngIf="mostrarImc" class="persona-form__imc">
+    <h5>Índice de Masa Corporal (IMC)</h5>
+    <div class="persona-form__grid persona-form__grid--imc">
+      <div class="persona-form__field">
+        <label [for]="idPrefix + '-peso'">Peso (kg)</label>
+        <input [id]="idPrefix + '-peso'" type="number" formControlName="peso" placeholder="Ej: 70" />
+        <span class="error" *ngIf="showError('peso')">
+          {{ getErrorMsg('peso', 'Peso es requerido.') }}
+        </span>
+      </div>
+      <div class="persona-form__field">
+        <label [for]="idPrefix + '-estatura'">Estatura (cm)</label>
+        <input [id]="idPrefix + '-estatura'" type="number" formControlName="estatura" placeholder="Ej: 170" />
+        <span class="error" *ngIf="showError('estatura')">
+          {{ getErrorMsg('estatura', 'Estatura es requerida.') }}
+        </span>
+      </div>
+      <div class="persona-form__field persona-form__field--btn">
+        <button type="button" class="btn btn--imc"
+          (click)="onCalcularImc()" [disabled]="imcCalculando || !canCalculateImc()">
+          {{ imcCalculando ? 'Calculando...' : 'Calcular IMC' }}
+        </button>
+      </div>
+    </div>
+    <div *ngIf="imcResult" class="imc-result"
+         [class.imc-result--valid]="imcResult.valido"
+         [class.imc-result--invalid]="!imcResult.valido">
+      <strong>IMC: {{ imcResult.imc }}</strong> — {{ imcResult.categoria }}
+      <span *ngIf="!imcResult.valido" class="imc-warning">
+        ⚠ Fuera del rango aceptado.
+      </span>
+    </div>
+  </div>
+</div>

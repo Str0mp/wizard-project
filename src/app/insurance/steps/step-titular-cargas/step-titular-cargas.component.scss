@@ -1,0 +1,25 @@
+.cargas-section { margin-top: 24px; }
+.cargas-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+}
+.cargas-header h3 { margin: 0; font-size: 18px; }
+.cargas-count { font-size: 14px; font-weight: 400; color: #888; }
+.min-warning {
+  color: #e65100; background: #fff3e0; padding: 10px 14px;
+  border-radius: 4px; border: 1px solid #ffcc80; font-size: 14px; margin-bottom: 16px;
+}
+.carga-item {
+  margin-bottom: 16px; padding: 16px;
+  border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa;
+}
+.carga-item__header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px; font-weight: 600;
+}
+.parentesco-field { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+.parentesco-field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #555; }
+.parentesco-field select {
+  width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px;
+  font-size: 14px; background: white; cursor: pointer;
+}
+.parentesco-field select:focus { outline: none; border-color: #1976d2; box-shadow: 0 0 0 2px rgba(25,118,210,0.15); }

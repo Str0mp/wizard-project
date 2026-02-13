@@ -1,0 +1,48 @@
+<div class="dps-form" *ngIf="config">
+  <h3 class="dps-form__titulo">{{ config.titulo }}</h3>
+  <p *ngIf="config.descripcion" class="dps-form__desc">{{ config.descripcion }}</p>
+
+  <div [formGroup]="form">
+    <div
+      *ngFor="let pregunta of preguntasVisibles"
+      class="dps-form__pregunta"
+    >
+      <label [for]="'dps-' + pregunta.id">{{ pregunta.texto }}</label>
+
+      <!-- Tipo: Sí/No -->
+      <div *ngIf="pregunta.tipo === 'si_no'" class="dps-form__radio-group">
+        <label>
+          <input type="radio" [formControlName]="pregunta.id" value="si" /> Sí
+        </label>
+        <label>
+          <input type="radio" [formControlName]="pregunta.id" value="no" /> No
+        </label>
+      </div>
+
+      <!-- Tipo: Texto -->
+      <input *ngIf="pregunta.tipo === 'texto'"
+        [id]="'dps-' + pregunta.id"
+        type="text"
+        [formControlName]="pregunta.id"
+        [placeholder]="pregunta.placeholder || ''" />
+
+      <!-- Tipo: Fecha -->
+      <input *ngIf="pregunta.tipo === 'fecha'"
+        [id]="'dps-' + pregunta.id"
+        type="date"
+        [formControlName]="pregunta.id" />
+
+      <!-- Tipo: Numérico -->
+      <input *ngIf="pregunta.tipo === 'numerico'"
+        [id]="'dps-' + pregunta.id"
+        type="number"
+        [formControlName]="pregunta.id"
+        [placeholder]="pregunta.placeholder || ''" />
+
+      <span class="error"
+        *ngIf="form.get(pregunta.id)?.touched && form.get(pregunta.id)?.invalid">
+        Esta pregunta es obligatoria.
+      </span>
+    </div>
+  </div>
+</div>

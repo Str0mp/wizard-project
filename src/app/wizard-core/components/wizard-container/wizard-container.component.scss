@@ -1,0 +1,9 @@
+.wizard-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.wizard-container__content { padding: 8px 0 24px; min-height: 200px; }
+.wizard-container__nav { display: flex; padding-top: 16px; border-top: 1px solid #eee; }
+.wizard-container__spacer { flex: 1; }

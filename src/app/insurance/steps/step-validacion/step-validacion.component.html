@@ -1,0 +1,69 @@
+<div class="step-validacion">
+  <h3>Validación de Datos</h3>
+  <div *ngIf="datos" class="preview">
+    <div class="preview-card">
+      <strong>Titular:</strong> {{ datos.titular?.nombre }} {{ datos.titular?.apellidos }} ({{ datos.titular?.rut }})
+    </div>
+    <div *ngFor="let c of datos.cargas; let i = index" class="preview-card">
+      <strong>Carga #{{ i + 1 }} <span *ngIf="c.parentescoId">({{ c.parentescoId }})</span>:</strong>
+      {{ c.nombre }} {{ c.apellidos }} ({{ c.rut }})
+    </div>
+  </div>
+
+  <div *ngIf="vehiculo" class="preview vehiculo-preview">
+    <h4 class="vehiculo-preview__title">Datos del Vehiculo</h4>
+    <div class="vehiculo-preview__grid">
+      <div class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">Patente</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.patente }}</span>
+      </div>
+      <div class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">Marca</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.marca }}</span>
+      </div>
+      <div class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">Modelo</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.modelo }}</span>
+      </div>
+      <div class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">Año</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.anio }}</span>
+      </div>
+      <div *ngIf="vehiculo.color" class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">Color</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.color }}</span>
+      </div>
+      <div *ngIf="vehiculo.numeroMotor" class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">N° Motor</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.numeroMotor }}</span>
+      </div>
+      <div *ngIf="vehiculo.numeroChasis" class="vehiculo-preview__item">
+        <span class="vehiculo-preview__label">N° Chasis</span>
+        <span class="vehiculo-preview__value">{{ vehiculo.numeroChasis }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="dpsConfig && dpsConfig.preguntas.length" class="preview dps-preview">
+    <h4 class="dps-preview__title">{{ dpsConfig.titulo }}</h4>
+    <div *ngFor="let p of dpsConfig.preguntas" class="dps-preview__item">
+      <ng-container *ngIf="!p.dependeDe || dpsRespuestas[p.dependeDe] === p.dependeValor">
+        <span class="dps-preview__pregunta">{{ p.texto }}</span>
+        <span class="dps-preview__respuesta" [class.dps-preview__respuesta--empty]="!dpsRespuestas[p.id] && dpsRespuestas[p.id] !== 0">
+          {{ formatDpsRespuesta(dpsRespuestas[p.id], p.tipo) }}
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <button class="btn btn--primary" (click)="validar()" [disabled]="validacion.loading"
+    style="margin: 16px 0">
+    {{ validacion.loading ? 'Validando...' : 'Validar Datos' }}
+  </button>
+  <div *ngIf="validacion.resultado" style="padding:12px;background:#e8f5e9;border-radius:4px;color:#2e7d32">
+    ✓ {{ validacion.resultado.mensaje }}
+  </div>
+  <div *ngIf="validacion.error" style="padding:12px;background:#ffebee;border-radius:4px;color:#c62828">
+    ✗ {{ validacion.error }}
+  </div>
+</div>

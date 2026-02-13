@@ -1,0 +1,68 @@
+/* Estilos para dps-form */
+
+.dps-form {
+  &__titulo {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  &__desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  &__pregunta {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: #1976d2;
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+      }
+    }
+  }
+
+  &__radio-group {
+    display: flex;
+    gap: 20px;
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+  }
+}
+
+.error {
+  display: block;
+  font-size: 12px;
+  color: #d32f2f;
+  margin-top: 4px;
+}

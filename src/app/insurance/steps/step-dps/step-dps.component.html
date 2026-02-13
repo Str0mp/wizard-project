@@ -1,0 +1,4 @@
+<div class="step-dps" *ngIf="dpsConfig; else loading">
+  <app-dps-form [config]="dpsConfig" [form]="dpsForm"></app-dps-form>
+</div>
+<ng-template #loading><p>Cargando declaración de salud...</p></ng-template>
