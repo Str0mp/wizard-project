@@ -17,7 +17,7 @@
         <span *ngIf="rutBuscando" class="persona-form__spinner">⏳</span>
       </div>
       <span class="error" *ngIf="showError('rut')">
-        {{ getErrorMsg('rut', 'RUT es requerido.') }}
+        {{ getErrorMsg('rut') }}
       </span>
       <span *ngIf="rutMensaje" class="hint"
             [class.hint--success]="rutEncontrado"
@@ -33,7 +33,7 @@
              placeholder="Ingrese nombre"
              [maxlength]="validationRules?.nombre?.maxLength || 100" />
       <span class="error" *ngIf="showError('nombre')">
-        {{ getErrorMsg('nombre', 'Nombre es requerido (mín. 2 caracteres).') }}
+        {{ getErrorMsg('nombre') }}
       </span>
     </div>
 
@@ -44,7 +44,7 @@
              placeholder="Ingrese apellidos"
              [maxlength]="validationRules?.apellidos?.maxLength || 100" />
       <span class="error" *ngIf="showError('apellidos')">
-        {{ getErrorMsg('apellidos', 'Apellidos es requerido (mín. 2 caracteres).') }}
+        {{ getErrorMsg('apellidos') }}
       </span>
     </div>
 
@@ -73,14 +73,14 @@
         <label [for]="idPrefix + '-peso'">Peso (kg)</label>
         <input [id]="idPrefix + '-peso'" type="number" formControlName="peso" placeholder="Ej: 70" />
         <span class="error" *ngIf="showError('peso')">
-          {{ getErrorMsg('peso', 'Peso es requerido.') }}
+          {{ getErrorMsg('peso') }}
         </span>
       </div>
       <div class="persona-form__field">
         <label [for]="idPrefix + '-estatura'">Estatura (cm)</label>
         <input [id]="idPrefix + '-estatura'" type="number" formControlName="estatura" placeholder="Ej: 170" />
         <span class="error" *ngIf="showError('estatura')">
-          {{ getErrorMsg('estatura', 'Estatura es requerida.') }}
+          {{ getErrorMsg('estatura') }}
         </span>
       </div>
       <div class="persona-form__field persona-form__field--btn">

@@ -85,7 +85,28 @@ export class PersonaFormComponent {
     return !!(ctrl?.touched && ctrl?.invalid);
   }
 
-  getErrorMsg(field: string, defaultMsg: string): string {
-    return (this.validationRules as any)?.[field]?.customErrorMsg || defaultMsg;
+  getErrorMsg(field: string): string {
+    const ctrl = this.form.get(field);
+    if (!ctrl || !ctrl.errors) { return ''; }
+
+    const customMsg = (this.validationRules as any)?.[field]?.customErrorMsg;
+    if (customMsg) { return customMsg; }
+
+    if (ctrl.hasError('required')) { return 'Este campo es requerido.'; }
+    if (ctrl.hasError('minlength')) {
+      return `Mínimo ${ctrl.getError('minlength').requiredLength} caracteres.`;
+    }
+    if (ctrl.hasError('maxlength')) {
+      return `Máximo ${ctrl.getError('maxlength').requiredLength} caracteres.`;
+    }
+    if (ctrl.hasError('min')) {
+      return `El valor mínimo es ${ctrl.getError('min').min}.`;
+    }
+    if (ctrl.hasError('max')) {
+      return `El valor máximo es ${ctrl.getError('max').max}.`;
+    }
+    if (ctrl.hasError('pattern')) { return 'Formato inválido.'; }
+
+    return 'Campo inválido.';
   }
 }
