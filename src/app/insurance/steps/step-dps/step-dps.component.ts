@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { WizardStep } from '../../../wizard-core/interfaces';
 import { DpsConfig } from '../../../shared/models/shared.models';
+import { DpsFormFactory } from '../../../shared/services/dps-form.factory';
 import { selectDpsConfig, selectDpsRespuestas } from '../../store/insurance.selectors';
 import { saveDpsRespuestas } from '../../store/insurance.actions';
 
@@ -13,20 +13,17 @@ import { saveDpsRespuestas } from '../../store/insurance.actions';
   selector: 'app-step-dps',
   templateUrl: './step-dps.component.html',
 })
-export class StepDpsComponent implements WizardStep, OnInit, OnDestroy {
+export class StepDpsComponent implements WizardStep, OnInit {
   dpsConfig: DpsConfig | null = null;
   dpsForm!: FormGroup;
-  private destroy$ = new Subject<void>();
 
-  constructor(private store: Store, private fb: FormBuilder) {}
+  constructor(private store: Store, private dpsFormFactory: DpsFormFactory) {}
 
   ngOnInit(): void {
     this.store.select(selectDpsConfig).pipe(take(1)).subscribe((config) => {
       this.dpsConfig = config;
       if (config) {
-        const group: Record<string, any> = {};
-        for (const p of config.preguntas) { group[p.id] = ['', p.requerida ? [Validators.required] : []]; }
-        this.dpsForm = this.fb.group(group);
+        this.dpsForm = this.dpsFormFactory.createDpsFormGroup(config.preguntas);
         this.store.select(selectDpsRespuestas).pipe(take(1)).subscribe((resp) => {
           if (resp && Object.keys(resp).length) { this.dpsForm.patchValue(resp); }
         });
@@ -34,7 +31,9 @@ export class StepDpsComponent implements WizardStep, OnInit, OnDestroy {
     });
   }
 
-  saveToStore(): void { if (this.dpsForm) { this.store.dispatch(saveDpsRespuestas({ respuestas: this.dpsForm.value })); } }
+  saveToStore(): void {
+    if (this.dpsForm) { this.store.dispatch(saveDpsRespuestas({ respuestas: this.dpsForm.value })); }
+  }
 
   isValid(): boolean {
     if (!this.dpsForm || !this.dpsConfig) { return false; }
@@ -45,6 +44,4 @@ export class StepDpsComponent implements WizardStep, OnInit, OnDestroy {
     }
     return true;
   }
-
-  ngOnDestroy(): void { this.destroy$.next(); this.destroy$.complete(); }
 }
